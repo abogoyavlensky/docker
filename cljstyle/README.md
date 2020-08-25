@@ -1,4 +1,4 @@
-# abogoyavlensky/cljstyle
+# [abogoyavlensky/cljstyle](https://hub.docker.com/r/abogoyavlensky/cljstyle)
 
 Docker image for [cljstyle](https://github.com/greglook/cljstyle) tool.
 Based on the [alpine](https://github.com/Docker-Hub-frolvlad/docker-alpine-glibc)
