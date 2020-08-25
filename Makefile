@@ -14,7 +14,8 @@ GOALS = $(filter-out $@,$(MAKECMDGOALS))
 IMAGE_NAME = $(GOALS)
 VERSION_FILE=$(IMAGE_NAME)/VERSION
 VERSION ?= $(shell cat $(VERSION_FILE))
-REPO=abogoyavlensky/$(IMAGE_NAME):$(VERSION)
+BASE_REPO=abogoyavlensky/$(IMAGE_NAME)
+REPO=$(BASE_REPO):$(VERSION)
 
 
 .PHONY: help  # Show list of targets with descriptions
@@ -47,3 +48,5 @@ publish:
 	@$(INFO) "Publishing image $(REPO)..."
 	# Run build.sh in image dir with custom args
 	@docker push $(REPO)
+	@docker tag $(REPO) $(BASE_REPO):latest
+	@docker push $(BASE_REPO):latest
