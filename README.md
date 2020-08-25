@@ -4,26 +4,26 @@
 
 ### Adding a new image
 
-To add new image to repository you should add dir with image name.
-The dir must contain following files:
+To add a new image to the repository you should add dir with image name.
+The dir must contain the following files:
 
 `Dockerfile` - actual docker file of an image.
 
-`VERSION` - plain text version actual version of image which will be used as docker image tag.
+`VERSION` - plain text version actual version of the image which will be used as a docker image tag.
 
 `build.sh` - shell script mostly with single command starts with `docker build ...`.
-Need to have ability to customize build args for some images.
+Need to have the ability to customize build args for some images.
 
 *Also you could add any other files which you would like to use at build step.*
 
-### Update an exisitng image
+### Update an existing image
 
-After making some changes in one of image dirs you should update version
-in appropriate `VERSION` file for an image.
+After making some changes in one of image dirs you should update the version
+in an appropriate `VERSION` file for an image.
 
 *For example for cljstyle it is [VERSION](/cljstyle/VERSION).*
 
-### Build new version of an image
+### Build a new version of an image
 
 Then you could run building an image by its name to test it locally:
 
@@ -31,21 +31,21 @@ Then you could run building an image by its name to test it locally:
 make build cljstyle
 ```
 
-*Directory with image name should exist in repository.*
+*Directory with image name should exist in the repository.*
 
 
-### Publish new version of an image
+### Publish a new version of an image
 
-If you want publish or just don't want to separate building and publishing steps
+If you want to publish or just don't want to separate building and publishing steps
 you could simply run:
 
 ```shell
 make publish cljstyle
 ```
 
-And the version of an image you bumped will be builded and published to [Dockerhub](https://hub.docker.com/u/abogoyavlensky).
+And the version of an image you bumped will be built and published to [Dockerhub](https://hub.docker.com/u/abogoyavlensky).
 
 
 ## TODO
 
-- [ ] Add github action to automatically publish next version of changed image.
+- [ ] Add Github action to automatically publish a next version of a changed image.
