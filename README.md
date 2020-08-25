@@ -45,6 +45,8 @@ make publish cljstyle
 
 And the version of an image you bumped will be built and published to [Dockerhub](https://hub.docker.com/u/abogoyavlensky).
 
+Also git tag with update image and version will be added and pushed to remote repository.
+
 
 ## TODO
 

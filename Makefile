@@ -41,6 +41,13 @@ build:
 	@cd $(IMAGE_NAME) && REPO=$(REPO) VERSION=$(VERSION) ./build.sh
 
 
+.PHONY: git-tag  # Add tag about new release of an image and push to repository
+git-tag:
+	@$(MAKE) check-image-name $(IMAGE_NAME)
+	@git tag -a "$(IMAGE_NAME)-$(VERSION)" -m 'Release $(REPO)'
+	@git push origin "$(IMAGE_NAME)-$(VERSION)"
+
+
 .PHONY: publish  # Publish image by dir name
 publish:
 	@$(MAKE) check-image-name $(IMAGE_NAME)
@@ -50,3 +57,5 @@ publish:
 	@docker push $(REPO)
 	@docker tag $(REPO) $(BASE_REPO):latest
 	@docker push $(BASE_REPO):latest
+	# Add git tag
+	@$(MAKE) build $(IMAGE_NAME)
