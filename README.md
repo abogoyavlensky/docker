@@ -51,3 +51,4 @@ Also git tag with update image and version will be added and pushed to remote re
 ## TODO
 
 - [ ] Add Github action to automatically publish a next version of a changed image.
+- [ ] Add validation before build that `VERSION` should be changed.
