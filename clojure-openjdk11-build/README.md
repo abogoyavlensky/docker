@@ -1,34 +1,20 @@
-# [abogoyavlensky/cljstyle](https://hub.docker.com/r/abogoyavlensky/cljstyle)
+# [abogoyavlensky/clojure-openjdk11-build](https://hub.docker.com/r/abogoyavlensky/clojure-openjdk11-build)
 
-Docker image for [cljstyle](https://github.com/greglook/cljstyle) tool.
-Based on the [alpine](https://github.com/Docker-Hub-frolvlad/docker-alpine-glibc)
-image with addition of `glibc` library.
+Docker image for building clojure projects.
+Based on the [clojure image](https://hub.docker.com/_/clojure).
 
-Supposed to be used locally or in CI for formatting Clojure files.
+## Tools
 
-## Usage examples
+Tools versions of image:
 
-Run with docker:
-
-```shell
-docker run -v $PWD:/app --rm abogoyavlensky/cljstyle cljstyle check --report src
+```
+clojure 1.10.1
+tools.deps 1.10.1.727
+cljstyle 0.13.0
+clj-kondo 2020.10.10
+robo latest
 ```
 
-Run with docker-compose:
+## Notes
 
-```yaml
-version: "3.8"
-
-services:
-  fmt:
-    image: abogoyavlensky/cljstyle
-    command: cljstyle check --report src
-    volumes:
-      - .:/app
-```
-
-```shell
-docker-compose run fmt
-```
-
-*More info about configuration and usages please see in origin [repository](https://github.com/greglook/cljstyle/blob/master/doc/integrations.md).*
+[robo](https://github.com/tj/robo) - project management tool.
