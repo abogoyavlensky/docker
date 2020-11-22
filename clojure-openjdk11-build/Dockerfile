@@ -4,7 +4,7 @@ RUN apt-get update \
   && apt-get install curl -y
 
 # Fetch formatter binary
-ENV CLJSTYLE_VERSION=0.13.0
+ENV CLJSTYLE_VERSION=0.14.0
 RUN curl -L https://github.com/greglook/cljstyle/releases/download/${CLJSTYLE_VERSION}/cljstyle_${CLJSTYLE_VERSION}_linux.tar.gz -o cljstyle.tar.gz \
   && tar -xzf cljstyle.tar.gz \
   && rm -rf cljstyle.tar.gz \
