@@ -50,7 +50,6 @@ git-tag:
 
 .PHONY: publish  # Publish image by dir name
 publish:
-	@$(MAKE) check-image-name $(IMAGE_NAME)
 	@$(MAKE) build $(IMAGE_NAME)
 	@$(INFO) "Publishing image $(REPO)..."
 	# Run build.sh in image dir with custom args
