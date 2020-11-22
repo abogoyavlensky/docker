@@ -18,7 +18,7 @@ RUN curl -L https://github.com/borkdude/clj-kondo/releases/download/v${CLJ_KONOD
   && mv clj-kondo /usr/local/bin/clj-kondo
 
 # Install robo
-RUN curl -sf https://gobinaries.com/tj/robo | sh
+RUN curl -sf https://gobinaries.com/tj/robo@0.7.0 | sh
 
 # Dir for application
 WORKDIR /app
