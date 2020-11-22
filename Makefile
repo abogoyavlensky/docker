@@ -58,4 +58,4 @@ publish:
 	@docker tag $(REPO) $(BASE_REPO):latest
 	@docker push $(BASE_REPO):latest
 	# Add git tag
-	@$(MAKE) build $(IMAGE_NAME)
+	@$(MAKE) git-tag $(IMAGE_NAME)
