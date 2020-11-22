@@ -11,7 +11,7 @@ Tools versions of image:
 clojure 1.10.1
 tools.deps 1.10.1.727
 cljstyle 0.14.0
-clj-kondo 2020.10.10
+clj-kondo 2020.11.07
 robo 0.7.0
 ```
 

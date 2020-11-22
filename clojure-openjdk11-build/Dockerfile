@@ -11,7 +11,7 @@ RUN curl -L https://github.com/greglook/cljstyle/releases/download/${CLJSTYLE_VE
   && mv cljstyle /usr/local/bin/cljstyle
 
 # Install linter
-ENV CLJ_KONOD_VERSION=2020.10.10
+ENV CLJ_KONOD_VERSION=2020.11.07
 RUN curl -L https://github.com/borkdude/clj-kondo/releases/download/v${CLJ_KONOD_VERSION}/clj-kondo-${CLJ_KONOD_VERSION}-linux-amd64.zip -o clj-kondo.zip \
   && jar -xvf clj-kondo.zip \
   && chmod +x clj-kondo \
