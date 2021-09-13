@@ -8,11 +8,12 @@ Based on the [clojure image](https://hub.docker.com/_/clojure).
 Tools versions of image:
 
 ```
-clojure 1.10.1
-tools.deps 1.10.1.727
-cljstyle 0.14.0
-clj-kondo 2020.11.07
+clojure 1.10.3
+tools.deps 1.10.3.967
+cljstyle 0.15.0
+clj-kondo 2021.08.06
 robo 0.7.0
+lein 2.9.6
 ```
 
 ## Notes
