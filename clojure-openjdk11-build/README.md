@@ -9,9 +9,9 @@ Tools versions of image:
 
 ```
 clojure 1.10.3
-tools.deps 1.10.3.967
+tools.deps 1.10.3.1040
 cljstyle 0.15.0
-clj-kondo 2021.08.06
+clj-kondo 2021.12.19
 robo 0.7.0
 lein 2.9.6
 ```
