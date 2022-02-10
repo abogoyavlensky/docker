@@ -14,6 +14,7 @@ cljstyle 0.15.0
 clj-kondo 2021.12.19
 robo 0.7.0
 lein 2.9.6
+chromedriver 97.0.4692.71
 ```
 
 ## Notes
