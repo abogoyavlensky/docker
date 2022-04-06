@@ -1,4 +1,4 @@
-FROM clojure:openjdk-11-tools-deps-1.10.3.1040-slim-buster
+FROM clojure:openjdk-11-tools-deps-1.11.0.1100-slim-buster
 
 RUN apt-get update \
   && apt-get install curl -y
