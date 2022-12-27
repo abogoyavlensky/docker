@@ -11,7 +11,7 @@ get_first_folder()
 get_changes()
 {
     RES=()
-    GIT_CHANGES=$(git diff --name-only HEAD^ HEAD)
+    GIT_CHANGES=$(git diff --name-only HEAD~1)
     for c in $GIT_CHANGES
     do
       if [[ "$c" != *"VERSION" ]]
