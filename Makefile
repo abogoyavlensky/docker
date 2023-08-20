@@ -9,7 +9,7 @@ INFO := @sh -c '\
 .SILENT:  # Ignore output of make `echo` command
 
 # Catch command args
-PARAMS := cljstyle clojure-openjdk11-build
+PARAMS := cljstyle clojure-openjdk11-build clojure-temurin17-build
 GOALS = $(filter-out $@,$(MAKECMDGOALS))
 IMAGE_NAME = $(GOALS)
 VERSION_FILE=$(IMAGE_NAME)/VERSION
