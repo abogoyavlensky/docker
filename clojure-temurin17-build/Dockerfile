@@ -23,7 +23,7 @@ RUN curl -L https://github.com/borkdude/clj-kondo/releases/download/v${CLJ_KONOD
 
 # Install Taskfile
 ENV TASKFILE_VERSION=3.28.0
-RUN curl -L https://github.com/go-task/task/releases/download/v${TASKFILE_VERSION}/task_linux_386.deb -o task.deb \
+RUN curl -L https://github.com/go-task/task/releases/download/v${TASKFILE_VERSION}/task_linux_amd64.deb -o task.deb \
   && dpkg -i task.deb
 
 # Dir for application
