@@ -118,7 +118,9 @@ WORKDIR /home/agent
 # Create directories for Copilot CLI configuration and state
 RUN mkdir -p /home/agent/.copilot \
     && mkdir -p /home/agent/.local/state/copilot \
-    && mkdir -p /home/agent/.local/share/copilot
+    && mkdir -p /home/agent/.local/share/copilot \
+    && mkdir -p /home/agent/.m2 \
+    && mkdir -p /home/agent/.gitlibs
 
 # Set XDG directories for Copilot CLI
 ENV XDG_STATE_HOME=/home/agent/.local/state

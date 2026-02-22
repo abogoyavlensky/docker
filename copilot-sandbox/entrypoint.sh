@@ -69,26 +69,26 @@ setup_workspace() {
     # copy only essential copilot files (not the entire 2GB directory)
     # first from local claude only skills
     if [ -d /mnt/claude ]; then
-        mkdir -p /home/app/.copilot
+        mkdir -p /home/agent/.copilot
         # copy essential directories (symlinked in dotfiles setups)
         for d in skills; do
-            [ -d "/mnt/copilot/$d" ] && cp -rL "/mnt/copilot/$d" "/home/app/.copilot/" 2>/dev/null || true
+            [ -d "/mnt/copilot/$d" ] && cp -rL "/mnt/copilot/$d" "/home/agent/.copilot/" 2>/dev/null || true
         done
-        chown -R app:app /home/app/.copilot
+        chown -R agent:agent /home/agent/.copilot
     fi
 
     # and everything else from copilot
     if [ -d /mnt/copilot ]; then
-        mkdir -p /home/app/.copilot
+        mkdir -p /home/agent/.copilot
         # copy config files only (not cache, history, debug, todos, etc.)
         for f in config.json AGENTS.md; do
-            [ -e "/mnt/copilot/$f" ] && cp -L "/mnt/copilot/$f" "/home/app/.copilot/$f" 2>/dev/null || true
+            [ -e "/mnt/copilot/$f" ] && cp -L "/mnt/copilot/$f" "/home/agent/.copilot/$f" 2>/dev/null || true
         done
         # copy essential directories (symlinked in dotfiles setups)
         for d in skills hooks agents plugins; do
-            [ -d "/mnt/copilot/$d" ] && cp -rL "/mnt/copilot/$d" "/home/app/.copilot/" 2>/dev/null || true
+            [ -d "/mnt/copilot/$d" ] && cp -rL "/mnt/copilot/$d" "/home/agent/.copilot/" 2>/dev/null || true
         done
-        chown -R app:app /home/app/.copilot
+        chown -R agent:agent /home/agent/.copilot
     fi
 
     # If WORKSPACE_PATH is set, use it
