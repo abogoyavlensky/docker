@@ -1,0 +1,49 @@
+FROM docker/sandbox-templates:copilot
+
+USER root
+
+# Install system deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    # Essential tools
+    ca-certificates \
+    curl \
+    wget \
+    gnupg \
+    lsb-release \
+    unzip \
+    rlwrap \
+    # Development tools
+    git \
+    build-essential \
+    # Shell utilities
+    bash \
+    bash-completion \
+    jq \
+    ripgrep \
+    tree \
+    less \
+    vim \
+    nano \
+    # Network tools
+    openssh-client \
+    # Process management
+    sudo \
+    procps \
+    # Python (for various tools and MCP servers)
+    python3 \
+    python3-pip \
+    python3-venv \
+    # Go runtime (common in development)
+    golang-go \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install mise
+RUN apt update -y && sudo apt install -y curl \
+    && install -dm 755 /etc/apt/keyrings \
+    && curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc 1> /dev/null \
+    && echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list \
+    && apt update -y \
+    && apt install -y mise
+
+
+USER agent
