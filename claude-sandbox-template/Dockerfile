@@ -48,8 +48,10 @@ ENV MISE_SHIMS_DIR="/home/agent/.local/bin"
 ENV PATH="/home/agent/.local/bin:/home/agent/.local/share/mise/shims:${PATH}"
 
 # Setup script: imports proxy CA into Java truststore and configures Maven proxy.
-# Runs at sandbox startup via /etc/profile.d/ to handle the Docker sandbox HTTPS proxy.
+# Source from both profile.d (login shells) and bash.bashrc (all interactive bash),
+# since we don't control how the sandbox base image launches the agent's shell.
 COPY setup-java-proxy.sh /etc/profile.d/setup-java-proxy.sh
-RUN chmod +x /etc/profile.d/setup-java-proxy.sh
+RUN chmod +x /etc/profile.d/setup-java-proxy.sh \
+    && echo '. /etc/profile.d/setup-java-proxy.sh' >> /etc/bash.bashrc
 
 USER agent
