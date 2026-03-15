@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ripgrep \
     tree \
     less \
-    vim \
     nano \
     # Network tools
     openssh-client \
@@ -33,8 +32,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     python3-venv \
-    # Go runtime (common in development)
-    golang-go \
     && rm -rf /var/lib/apt/lists/*
 
 # Install mise
@@ -45,5 +42,9 @@ RUN apt update -y && sudo apt install -y curl \
     && apt update -y \
     && apt install -y mise
 
+# Make mise-installed tools available in all shells (including non-interactive).
+# ENV works in every context, unlike .bashrc which only runs in interactive bash.
+ENV MISE_SHIMS_DIR="/home/agent/.local/bin"
+ENV PATH="/home/agent/.local/bin:/home/agent/.local/share/mise/shims:${PATH}"
 
 USER agent
