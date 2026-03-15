@@ -18,6 +18,7 @@ if [ ! -f "$CLJ_TOOLS_JAR" ]; then
     rmdir "${CLJ_TOOLS_DIR}/ClojureTools" 2>/dev/null
 fi
 
+
 # Imports the Docker sandbox proxy CA into the Java truststore and
 # configures Maven to route through the proxy.
 PROXY_CA="/usr/local/share/ca-certificates/proxy-ca.crt"
