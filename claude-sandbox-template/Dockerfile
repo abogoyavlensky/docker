@@ -55,6 +55,11 @@ RUN chmod +x /etc/profile.d/setup-java-proxy.sh \
     && echo '. /etc/profile.d/setup-java-proxy.sh' >> /etc/bash.bashrc \
     && echo 'api.version=1.44' > /home/agent/.docker-java.properties
 
+# Symlink mounted host .claude dirs to agent's home so tools find them at ~/.claude/
+RUN mkdir -p /home/agent/.claude \
+    && ln -s /Users/andrew/.claude/skills /home/agent/.claude/skills \
+    && ln -s /Users/andrew/.claude/agents /home/agent/.claude/agents
+
 USER agent
 
 # Preinstall babashka and clojure-tools via mise.

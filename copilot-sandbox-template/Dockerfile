@@ -57,6 +57,10 @@ RUN chmod +x /etc/profile.d/setup-java-proxy.sh \
 
 USER agent
 
+# Symlink mounted host .claude dirs to agent's home so tools find them at ~/.claude/
+RUN mkdir -p /home/agent/.claude \
+    && ln -s /Users/andrew/.claude/skills /home/agent/.claude/skills \
+    && ln -s /Users/andrew/.claude/agents /home/agent/.claude/agents
 
 # Preinstall babashka and clojure-tools via mise.
 # `mise use --global` installs the tool, sets it as the global default, and creates shims.
