@@ -1,26 +1,9 @@
-#!/bin/bash                                                     
+#!/bin/bash
 # setup-java-proxy.sh
-# Sourced via /etc/profile.d/ on login shells.
-
-# Pre-download Clojure tools for babashka (once)
-# Babashka is a GraalVM native image with its own TLS stack that
-# doesn't trust the sandbox proxy CA. Downloading via curl (which does
-# trust it) avoids the PKIX certificate error.
-CLJ_VERSION="1.12.1.1550"
-CLJ_TOOLS_DIR="/home/agent/.deps.clj/${CLJ_VERSION}/ClojureTools"
-CLJ_TOOLS_JAR="${CLJ_TOOLS_DIR}/clojure-tools-${CLJ_VERSION}.jar"
-if [ ! -f "$CLJ_TOOLS_JAR" ]; then
-    mkdir -p "$CLJ_TOOLS_DIR"
-    curl -fsSL -o "${CLJ_TOOLS_DIR}/clojure-tools.zip" \
-        "https://github.com/clojure/brew-install/releases/download/${CLJ_VERSION}/clojure-tools.zip"
-    unzip -o "${CLJ_TOOLS_DIR}/clojure-tools.zip" -d "$CLJ_TOOLS_DIR"
-    mv "${CLJ_TOOLS_DIR}/ClojureTools/"* "$CLJ_TOOLS_DIR/" 2>/dev/null
-    rmdir "${CLJ_TOOLS_DIR}/ClojureTools" 2>/dev/null
-fi
-
-
-# Imports the Docker sandbox proxy CA into the Java truststore and
-# configures Maven to route through the proxy.
+# Sourced via BASH_ENV (non-interactive), /etc/profile.d/ (login),
+# and /etc/bash.bashrc (interactive) to cover all shell types.
+# Imports the Docker sandbox proxy CA into the Java truststore,
+# configures Maven proxy, and wraps bb with proxy settings.
 PROXY_CA="/usr/local/share/ca-certificates/proxy-ca.crt"
 
 # Skip entirely when not in sandbox proxy environment
@@ -70,4 +53,27 @@ if [ ! -f "$JAVA_PROXY_MARKER" ]; then
             -noprompt 2>/dev/null
         touch "$JAVA_PROXY_MARKER"
     fi
+fi
+
+# Wrap bb (babashka) to pass proxy and SSL settings to the GraalVM native image.
+# bb doesn't read HTTPS_PROXY or Maven settings — needs explicit -D properties.
+if [ -n "$HTTPS_PROXY" ] && ! declare -f bb >/dev/null 2>&1; then
+    bb() {
+        local bb_opts=""
+        local cacerts
+        cacerts="$(find /home/agent/.local/share/mise/installs/java -name cacerts -path '*/lib/security/*' 2>/dev/null | head -1)"
+        if [ -n "$cacerts" ] && [ -f "$cacerts" ]; then
+            bb_opts="-Djavax.net.ssl.trustStore=$cacerts"
+        fi
+        local proxy_host proxy_port
+        proxy_host="$(echo "$HTTPS_PROXY" | sed 's|http://||' | cut -d: -f1)"
+        proxy_port="$(echo "$HTTPS_PROXY" | sed 's|http://||' | cut -d: -f2)"
+        command bb $bb_opts \
+            "-Dhttp.proxyHost=$proxy_host" \
+            "-Dhttp.proxyPort=$proxy_port" \
+            "-Dhttps.proxyHost=$proxy_host" \
+            "-Dhttps.proxyPort=$proxy_port" \
+            "-Dhttp.nonProxyHosts=localhost|127.0.0.1" \
+            "$@"
+    }
 fi

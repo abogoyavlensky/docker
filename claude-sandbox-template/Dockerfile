@@ -52,6 +52,14 @@ ENV PATH="/home/agent/.local/bin:/home/agent/.local/share/mise/shims:${PATH}"
 # since we don't control how the sandbox base image launches the agent's shell.
 COPY setup-java-proxy.sh /etc/profile.d/setup-java-proxy.sh
 RUN chmod +x /etc/profile.d/setup-java-proxy.sh \
-    && echo '. /etc/profile.d/setup-java-proxy.sh' >> /etc/bash.bashrc
+    && echo '. /etc/profile.d/setup-java-proxy.sh' >> /etc/bash.bashrc \
+    && echo 'api.version=1.44' > /home/agent/.docker-java.properties
 
 USER agent
+
+# Preinstall babashka and clojure-tools via mise.
+# `mise use --global` installs the tool, sets it as the global default, and creates shims.
+# Shims are version-agnostic: if the agent later installs a different version, the same
+# shim delegates to whatever version mise resolves from .tool-versions / .mise.toml.
+RUN mise use --global babashka@latest clojure@latest \
+    && mise reshim
