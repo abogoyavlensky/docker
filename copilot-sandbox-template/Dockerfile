@@ -55,6 +55,10 @@ RUN chmod +x /etc/profile.d/setup-java-proxy.sh \
     && echo '. /etc/profile.d/setup-java-proxy.sh' >> /etc/bash.bashrc \
     && echo 'api.version=1.44' > /home/agent/.docker-java.properties
 
+ARG JAVA_VERSION=temurin-21.0.2+13.0.LTS
+ARG CLOJURE_VERSION=1.12.1.1550
+ARG BB_VERSION=1.12.206
+
 USER agent
 
 # Symlink mounted host .claude dirs to agent's home so tools find them at ~/.claude/
@@ -66,5 +70,16 @@ RUN mkdir -p /home/agent/.claude \
 # `mise use --global` installs the tool, sets it as the global default, and creates shims.
 # Shims are version-agnostic: if the agent later installs a different version, the same
 # shim delegates to whatever version mise resolves from .tool-versions / .mise.toml.
-RUN mise use --global babashka@latest clojure@latest \
-    && mise reshim
+RUN mise use --global java@${JAVA_VERSION} clojure@${CLOJURE_VERSION} babashka@${BB_VERSION} \
+     && mise reshim \
+     && JAVA_HOME="$HOME/.local/share/mise/installs/java/${JAVA_VERSION}" \
+     && keytool -importcert -noprompt -trustcacerts \
+          -alias docker-sandboxes-proxy-ca \
+          -file /usr/local/share/ca-certificates/proxy-ca.crt \
+          -keystore "$JAVA_HOME/lib/security/cacerts" \
+          -storepass changeit \
+     && CLJ_HOME="$HOME/.local/share/mise/installs/clojure/${CLOJURE_VERSION}" \
+     && BB_TOOLS="$HOME/.deps.clj/${CLOJURE_VERSION}/ClojureTools" \
+     && mkdir -p "$BB_TOOLS" \
+     && cp "$CLJ_HOME/libexec/clojure-tools-${CLOJURE_VERSION}.jar" "$BB_TOOLS/" \
+     && cp "$CLJ_HOME/libexec/exec.jar" "$CLJ_HOME/tools.edn" "$CLJ_HOME/example-deps.edn" "$BB_TOOLS/"
